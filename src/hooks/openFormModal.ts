@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 
 export const useOpenFormModal = <T = any>() => {
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(true);
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const resolveRef = useRef<((value: T | null) => void) | null>(null);
 
   const openFormModal = (): Promise<T | null> => {
