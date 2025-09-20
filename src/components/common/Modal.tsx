@@ -7,9 +7,10 @@ interface Props {
   children: ReactNode;
   onClose: () => void;
   title: string;
+  description?: string;
 }
 
-export const Modal = ({ children, onClose, title }: Props) => {
+export const Modal = ({ children, onClose, title, description }: Props) => {
   const root = document.querySelector("#modal-root");
 
   const containerRef = useFocus();
@@ -44,12 +45,24 @@ export const Modal = ({ children, onClose, title }: Props) => {
         >
           <div
             ref={containerRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+            aria-describedby={description ? "modal-description" : undefined}
             onClick={(e) => e.stopPropagation()}
             className="bg-white rounded-lg shadow-xl p-6 max-w-md w-full max-h-screen overflow-auto"
           >
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">
+            <h2
+              id="modal-title"
+              className="text-xl font-semibold text-gray-800 mb-2"
+            >
               {title}
             </h2>
+            {description && (
+              <p id="modal-description" className="text-sm mb-4 text-gray-600">
+                {description}
+              </p>
+            )}
             {children}
           </div>
         </div>,

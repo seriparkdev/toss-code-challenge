@@ -35,11 +35,11 @@ export const RegisterForm = ({ submitFormModal, closeFormModal }: Props) => {
   }, [errors]);
 
   return (
-    <Modal title="신청 폼" onClose={closeFormModal}>
-      <p className="text-sm mb-2 ">
-        이메일과 FE 경력 연차 등 간단한 정보를 입력해주세요.
-      </p>
-
+    <Modal
+      title="신청 폼"
+      description="이메일과 FE 경력 연차 등 간단한 정보를 입력해주세요."
+      onClose={closeFormModal}
+    >
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <label
