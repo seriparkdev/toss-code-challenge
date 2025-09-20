@@ -22,7 +22,7 @@ export const RegisterForm = ({ submitFormModal, closeFormModal }: Props) => {
   };
 
   return (
-    <Modal onOverlayClick={closeFormModal}>
+    <Modal onClose={closeFormModal}>
       <div className="w-full">
         <h2 className="text-xl font-semibold text-gray-800 mb-2">신청 폼</h2>
         <p className="text-sm mb-2 ">
