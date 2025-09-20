@@ -1,5 +1,6 @@
 import { Modal } from "./common/Modal";
 import { useForm } from "react-hook-form";
+import { useEffect, useRef } from "react";
 import type { RegisterFormData } from "../types/form";
 
 interface Props {
@@ -15,11 +16,23 @@ export const RegisterForm = ({ submitFormModal, closeFormModal }: Props) => {
     reset,
   } = useForm<RegisterFormData>();
 
+  const errorMessageRef = useRef<HTMLDivElement>(null);
+
   const onSubmit = (data: RegisterFormData) => {
     submitFormModal(data);
     reset();
     closeFormModal();
   };
+
+  // 오류가 발생했을 때 스크린리더에게 알림
+  useEffect(() => {
+    if (Object.keys(errors).length > 0 && errorMessageRef.current) {
+      const errorCount = Object.keys(errors).length;
+      errorMessageRef.current.textContent = `${errorCount}개의 오류가 있습니다. 폼을 확인해주세요.`;
+    } else if (errorMessageRef.current) {
+      errorMessageRef.current.textContent = "";
+    }
+  }, [errors]);
 
   return (
     <Modal title="신청 폼" onClose={closeFormModal}>
@@ -38,6 +51,8 @@ export const RegisterForm = ({ submitFormModal, closeFormModal }: Props) => {
           <input
             type="text"
             id="name"
+            aria-describedby={errors.name ? "name-error" : undefined}
+            aria-invalid={errors.name ? "true" : "false"}
             {...register("name", {
               required: "이름을 입력해주세요",
             })}
@@ -46,7 +61,13 @@ export const RegisterForm = ({ submitFormModal, closeFormModal }: Props) => {
             }`}
           />
           {errors.name && (
-            <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+            <p
+              id="name-error"
+              className="mt-1 text-sm text-red-600"
+              role="alert"
+            >
+              {errors.name.message}
+            </p>
           )}
         </div>
 
@@ -60,6 +81,8 @@ export const RegisterForm = ({ submitFormModal, closeFormModal }: Props) => {
           <input
             type="email"
             id="email"
+            aria-describedby={errors.email ? "email-error" : undefined}
+            aria-invalid={errors.email ? "true" : "false"}
             {...register("email", {
               required: "이메일을 입력해주세요",
               pattern: {
@@ -72,7 +95,13 @@ export const RegisterForm = ({ submitFormModal, closeFormModal }: Props) => {
             }`}
           />
           {errors.email && (
-            <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+            <p
+              id="email-error"
+              className="mt-1 text-sm text-red-600"
+              role="alert"
+            >
+              {errors.email.message}
+            </p>
           )}
         </div>
 
@@ -85,6 +114,10 @@ export const RegisterForm = ({ submitFormModal, closeFormModal }: Props) => {
           </label>
           <select
             id="experience"
+            aria-describedby={
+              errors.experience ? "experience-error" : undefined
+            }
+            aria-invalid={errors.experience ? "true" : "false"}
             {...register("experience", {
               required: "경력 연차를 선택해주세요",
             })}
@@ -99,7 +132,11 @@ export const RegisterForm = ({ submitFormModal, closeFormModal }: Props) => {
             <option value="10년 이상">10년 이상</option>
           </select>
           {errors.experience && (
-            <p className="mt-1 text-sm text-red-600">
+            <p
+              id="experience-error"
+              className="mt-1 text-sm text-red-600"
+              role="alert"
+            >
               {errors.experience.message}
             </p>
           )}
@@ -116,13 +153,21 @@ export const RegisterForm = ({ submitFormModal, closeFormModal }: Props) => {
             type="url"
             id="github"
             placeholder="https://github.com/username"
+            aria-describedby={errors.github ? "github-error" : undefined}
+            aria-invalid={errors.github ? "true" : "false"}
             {...register("github")}
             className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
               errors.github ? "border-red-500" : "border-gray-300"
             }`}
           />
           {errors.github && (
-            <p className="mt-1 text-sm text-red-600">{errors.github.message}</p>
+            <p
+              id="github-error"
+              className="mt-1 text-sm text-red-600"
+              role="alert"
+            >
+              {errors.github.message}
+            </p>
           )}
         </div>
 
