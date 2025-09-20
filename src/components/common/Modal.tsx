@@ -14,6 +14,7 @@ export const Modal = ({ children, onClose, title }: Props) => {
 
   const containerRef = useFocus();
 
+  // ESC 키 입력을 통해 모달 닫기
   useEffect(() => {
     const handleEscKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -24,6 +25,16 @@ export const Modal = ({ children, onClose, title }: Props) => {
     document.addEventListener("keydown", handleEscKey);
     return () => document.removeEventListener("keydown", handleEscKey);
   }, [onClose]);
+
+  // 모달이 열릴 때 배경 스크롤 방지
+  useEffect(() => {
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = originalStyle;
+    };
+  }, []);
 
   return root
     ? ReactDOM.createPortal(
