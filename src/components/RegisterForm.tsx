@@ -7,11 +7,16 @@ import { useEffect, useRef } from "react";
 import type { RegisterFormData } from "../types/form";
 
 interface Props {
+  isOpenModal: boolean;
   closeFormModal: () => void;
   submitFormModal: (formValue: RegisterFormData) => void;
 }
 
-export const RegisterForm = ({ submitFormModal, closeFormModal }: Props) => {
+export const RegisterForm = ({
+  isOpenModal,
+  submitFormModal,
+  closeFormModal,
+}: Props) => {
   const {
     register,
     handleSubmit,
@@ -39,6 +44,7 @@ export const RegisterForm = ({ submitFormModal, closeFormModal }: Props) => {
 
   return (
     <Modal
+      isOpen={isOpenModal}
       title="신청 폼"
       description="이메일과 FE 경력 연차 등 간단한 정보를 입력해주세요."
       onClose={closeFormModal}
@@ -100,11 +106,7 @@ export const RegisterForm = ({ submitFormModal, closeFormModal }: Props) => {
           >
             취소
           </Button>
-          <Button
-            type="submit"
-            variant="primary"
-            className="flex-1"
-          >
+          <Button type="submit" variant="primary" className="flex-1">
             제출
           </Button>
         </div>

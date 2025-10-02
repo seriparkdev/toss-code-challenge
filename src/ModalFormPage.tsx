@@ -1,5 +1,5 @@
 import { RegisterForm } from "./components/RegisterForm";
-import { useOpenFormModal } from "./hooks/openFormModal";
+import { useOpenFormModal } from "./hooks/useOpenFormModal";
 import type { RegisterFormData } from "./types/form";
 
 const ModalFormPage = () => {
@@ -25,6 +25,7 @@ const ModalFormPage = () => {
       </button>
       {isOpenModal && (
         <RegisterForm
+          isOpenModal={isOpenModal}
           closeFormModal={closeFormModal}
           submitFormModal={submitFormModal}
         />
