@@ -1,10 +1,10 @@
-import { RegisterForm } from "./components/RegisterForm";
-import { useOpenFormModal } from "./hooks/useOpenFormModal";
 import type { RegisterFormData } from "./types/form";
+import { Button } from "./components/common/Button";
+import Modal from "./components/common/Modal";
+import { useModalContext } from "./contexts/ModalContext";
 
 const ModalFormPage = () => {
-  const { isOpenModal, openFormModal, submitFormModal, closeFormModal } =
-    useOpenFormModal<RegisterFormData>();
+  const { openFormModal, closeFormModal } = useModalContext<RegisterFormData>();
 
   const handleFormResult = async () => {
     try {
@@ -17,19 +17,27 @@ const ModalFormPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <button
-        onClick={handleFormResult}
-        className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium"
-      >
-        📝 신청 폼 작성하기
-      </button>
-      {isOpenModal && (
-        <RegisterForm
-          isOpenModal={isOpenModal}
-          closeFormModal={closeFormModal}
-          submitFormModal={submitFormModal}
-        />
-      )}
+      <Button onClick={handleFormResult}>📝 신청 폼 작성하기</Button>
+      <Modal>
+        <Modal.Header>신청 폼</Modal.Header>
+        <Modal.Description>
+          이메일과 FE 경력 연차 등 간단한 정보를 입력해주세요.
+        </Modal.Description>
+
+        <Modal.Footer>
+          <Button
+            type="button"
+            variant="secondary"
+            fullWidth
+            onClick={closeFormModal}
+          >
+            취소
+          </Button>
+          <Button type="submit" variant="primary" fullWidth>
+            제출
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
