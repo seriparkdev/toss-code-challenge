@@ -1,16 +1,15 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
-export const useFocusTrap = (
-  isActive: boolean,
-  container: HTMLDivElement | null
-) => {
+export const useFocusTrap = (isActive: boolean) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
   const getFocusableElements = useCallback(
     (container: HTMLElement): HTMLElement[] => {
       const focusableElements = [
-        "button",
-        "input",
-        "textarea",
-        "select",
+        "button:not(:disabled)",
+        "input:not(:disabled)",
+        "textarea:not(:disabled)",
+        "select:not(:disabled)",
         "a[href]",
         '[tabindex]:not([tabindex="-1"])',
       ].join(", ");
@@ -21,9 +20,12 @@ export const useFocusTrap = (
   );
 
   useEffect(() => {
+    const container = containerRef.current;
     if (!isActive || !container) return;
 
     const handleTabKey = (event: KeyboardEvent) => {
+      if (event.key !== "Tab") return;
+
       const focusableArray = getFocusableElements(container);
 
       if (focusableArray.length === 0) return;
@@ -50,5 +52,7 @@ export const useFocusTrap = (
 
     container.addEventListener("keydown", handleTabKey);
     return () => container.removeEventListener("keydown", handleTabKey);
-  }, [isActive, container]);
+  }, [isActive, getFocusableElements]);
+
+  return containerRef;
 };

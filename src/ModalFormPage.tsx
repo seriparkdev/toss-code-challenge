@@ -15,15 +15,17 @@ const ModalFormPage = () => {
     formState: { errors },
     reset,
   } = useForm<RegisterFormData>({
-    mode: "onChange",
+    mode: "onBlur",
   });
 
   const handleFormResult = async () => {
     try {
       const result = await openFormModal();
-      alert(
-        `이메일: ${result?.email}\n 이름:${result?.name}\n GitHub: ${result?.github}\n 경력: ${result?.experience}`
-      );
+      if (result) {
+        alert(
+          `이메일: ${result.email}\n이름: ${result.name}\nGitHub: ${result.github}\n경력: ${result.experience}`
+        );
+      }
     } catch (e) {
       console.error(e);
     }

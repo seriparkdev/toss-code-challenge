@@ -1,12 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useFocusTrap } from "./useFocusTrap";
 import { useModalContext } from "../contexts/ModalContext";
 
 export const useModalBehavior = () => {
   const { closeFormModal, isOpenModal } = useModalContext();
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
-  useFocusTrap(isOpenModal, containerRef.current);
+  const containerRef = useFocusTrap(isOpenModal);
 
   // 모달이 열릴 때 배경 스크롤 방지
   useEffect(() => {
