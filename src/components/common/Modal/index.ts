@@ -1,12 +1,10 @@
-import { Root } from "./Root";
-import { Header } from "./Header";
 import { Description } from "./Description";
-import { Footer } from "./Footer";
+import { Header } from "./Header";
+import { Root } from "./Root";
 
 const Modal = Object.assign(Root, {
-  Header,
   Description,
-  Footer,
+  Header,
 });
 
 export default Modal;
