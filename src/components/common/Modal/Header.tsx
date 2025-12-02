@@ -21,15 +21,13 @@ export const Header = ({ children }: Props) => {
     }
 
     // 제목으로 포커스 이동
-    requestAnimationFrame(() => {
+    setTimeout(() => {
       titleRef.current?.focus();
-    });
+    }, 0);
 
     // 모달이 닫힐 때 이전 포커스 복원
     return () => {
-      requestAnimationFrame(() => {
-        previousFocusElementRef.current?.focus();
-      });
+      previousFocusElementRef.current?.focus();
     };
   }, [isOpenModal]);
 
