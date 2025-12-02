@@ -12,10 +12,6 @@ export const Root = ({ children }: Props) => {
     useModalContext();
   const { containerRef } = useModalBehavior();
 
-  useEffect(() => {
-    if (!isOpenModal) return;
-  }, [isOpenModal]);
-
   if (!isOpenModal) return null;
 
   const modalElement = (
